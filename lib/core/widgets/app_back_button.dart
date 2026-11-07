@@ -9,7 +9,7 @@ class AppBackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label: 'Back',
+      label: MaterialLocalizations.of(context).backButtonTooltip,
       child: Material(
         color: Colors.white,
         elevation: 1,

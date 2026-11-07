@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_card.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/charger.dart';
 
 class ChargerCard extends StatelessWidget {
@@ -12,6 +13,7 @@ class ChargerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
 
     return AppCard(
       child: Column(
@@ -39,8 +41,12 @@ class ChargerCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            '${charger.powerKw} kW · ${charger.connector} · '
-            '${charger.freeBays} of ${charger.totalBays} free',
+            l10n.chargerDetails(
+              charger.powerKw,
+              charger.connector,
+              charger.freeBays,
+              charger.totalBays,
+            ),
             style: text.bodyMedium,
           ),
           const SizedBox(height: 12),
@@ -49,12 +55,15 @@ class ChargerCard extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _Stat(label: 'TIME', value: '${charger.minutes} min'),
+                child: _Stat(
+                  label: l10n.chargerTimeLabel,
+                  value: l10n.minutesValue(charger.minutes),
+                ),
               ),
               Expanded(
                 child: _Stat(
-                  label: 'TOTAL',
-                  value: '£${charger.totalGbp.toStringAsFixed(2)}',
+                  label: l10n.chargerTotalLabel,
+                  value: l10n.totalValue(charger.totalGbp),
                 ),
               ),
             ],

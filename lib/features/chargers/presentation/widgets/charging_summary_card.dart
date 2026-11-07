@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_card.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class ChargingSummaryCard extends StatelessWidget {
   const ChargingSummaryCard({super.key});
@@ -30,7 +31,12 @@ class ChargingSummaryCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          Expanded(child: Text('Charging 40% → 80%', style: text.titleMedium)),
+          Expanded(
+            child: Text(
+              AppLocalizations.of(context).chargingSummary,
+              style: text.titleMedium,
+            ),
+          ),
         ],
       ),
     );

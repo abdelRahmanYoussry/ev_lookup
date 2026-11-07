@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../../core/constants.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class PlateInput extends StatelessWidget {
@@ -38,7 +39,7 @@ class PlateInput extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             padding: const EdgeInsets.only(bottom: 8),
             child: Text(
-              'UK',
+              plateCountryCode,
               style: text.labelLarge?.copyWith(
                 color: Colors.white,
                 fontSize: 12,
@@ -62,7 +63,7 @@ class PlateInput extends StatelessWidget {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.zero,
-                  hintText: 'TF24 LPO',
+                  hintText: plateHint,
                   hintStyle: plateStyle?.copyWith(
                     color: AppColors.textPrimary.withValues(alpha: 0.2),
                   ),

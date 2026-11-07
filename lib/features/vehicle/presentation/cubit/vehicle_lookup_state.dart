@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/error/failure.dart';
 import '../../domain/entities/vehicle.dart';
 
 sealed class VehicleLookupState extends Equatable {
@@ -14,11 +15,7 @@ class VehicleLookupInitial extends VehicleLookupState {
 }
 
 class VehicleLookupValidationError extends VehicleLookupState {
-  final String message;
-  const VehicleLookupValidationError(this.message);
-
-  @override
-  List<Object?> get props => [message];
+  const VehicleLookupValidationError();
 }
 
 class VehicleLookupLoading extends VehicleLookupState {
@@ -26,19 +23,15 @@ class VehicleLookupLoading extends VehicleLookupState {
 }
 
 class VehicleLookupNotFound extends VehicleLookupState {
-  final String message;
-  const VehicleLookupNotFound(this.message);
-
-  @override
-  List<Object?> get props => [message];
+  const VehicleLookupNotFound();
 }
 
 class VehicleLookupFailed extends VehicleLookupState {
-  final String message;
-  const VehicleLookupFailed(this.message);
+  final Failure failure;
+  const VehicleLookupFailed(this.failure);
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [failure];
 }
 
 class VehicleLookupSuccess extends VehicleLookupState {

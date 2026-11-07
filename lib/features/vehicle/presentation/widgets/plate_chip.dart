@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants.dart';
 import '../../../../core/theme/app_colors.dart';
 
 String formatPlate(String registration) {
@@ -35,7 +36,7 @@ class PlateChip extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             padding: const EdgeInsets.only(bottom: 4),
             child: Text(
-              'UK',
+              plateCountryCode,
               style: text.labelLarge?.copyWith(
                 color: Colors.white,
                 fontSize: 8,

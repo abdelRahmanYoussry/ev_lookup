@@ -57,34 +57,30 @@ void main() {
         ),
     build: () => VehicleLookupCubit(lookupVehicle),
     act: (cubit) => cubit.lookup('ab12 cde'),
-    expect:
-        () => const [
-          VehicleLookupLoading(),
-          VehicleLookupNotFound('Vehicle not found'),
-        ],
+    expect: () => const [VehicleLookupLoading(), VehicleLookupNotFound()],
   );
 
   blocTest<VehicleLookupCubit, VehicleLookupState>(
     'emits failed on a network failure',
-    setUp: () => stub(const Left(NetworkFailure('No connection'))),
+    setUp: () => stub(const Left(NetworkFailure())),
     build: () => VehicleLookupCubit(lookupVehicle),
     act: (cubit) => cubit.lookup('TF24LPO'),
     expect:
         () => const [
           VehicleLookupLoading(),
-          VehicleLookupFailed('No connection'),
+          VehicleLookupFailed(NetworkFailure()),
         ],
   );
 
   blocTest<VehicleLookupCubit, VehicleLookupState>(
     'emits failed on an unknown failure',
-    setUp: () => stub(const Left(UnknownFailure('Something went wrong'))),
+    setUp: () => stub(const Left(UnknownFailure())),
     build: () => VehicleLookupCubit(lookupVehicle),
     act: (cubit) => cubit.lookup('TF24LPO'),
     expect:
         () => const [
           VehicleLookupLoading(),
-          VehicleLookupFailed('Something went wrong'),
+          VehicleLookupFailed(UnknownFailure()),
         ],
   );
 
@@ -92,8 +88,7 @@ void main() {
     'blank input emits a validation error and sends no request',
     build: () => VehicleLookupCubit(lookupVehicle),
     act: (cubit) => cubit.lookup('   '),
-    expect:
-        () => const [VehicleLookupValidationError('Enter your registration')],
+    expect: () => const [VehicleLookupValidationError()],
     verify: (_) => verifyNever(() => lookupVehicle(any())),
   );
 
@@ -122,9 +117,7 @@ void main() {
       var calls = 0;
       when(() => lookupVehicle('TF24LPO')).thenAnswer((_) async {
         final Either<Failure, Vehicle> result =
-            calls++ == 0
-                ? const Left(NetworkFailure('No connection'))
-                : const Right(vehicle);
+            calls++ == 0 ? const Left(NetworkFailure()) : const Right(vehicle);
         return result;
       });
     },
@@ -136,7 +129,7 @@ void main() {
     expect:
         () => const [
           VehicleLookupLoading(),
-          VehicleLookupFailed('No connection'),
+          VehicleLookupFailed(NetworkFailure()),
           VehicleLookupLoading(),
           VehicleLookupSuccess(vehicle, 'TF24LPO'),
         ],
@@ -145,7 +138,7 @@ void main() {
 
   blocTest<VehicleLookupCubit, VehicleLookupState>(
     'retry keeps the last registration after a blank submission',
-    setUp: () => stub(const Left(NetworkFailure('No connection'))),
+    setUp: () => stub(const Left(NetworkFailure())),
     build: () => VehicleLookupCubit(lookupVehicle),
     act: (cubit) async {
       await cubit.lookup('TF24LPO');

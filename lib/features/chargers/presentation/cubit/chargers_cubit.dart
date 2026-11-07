@@ -18,7 +18,7 @@ class ChargersCubit extends Cubit<ChargersState> {
 
     emit(
       result.fold(
-        (failure) => ChargersFailure(failure.message),
+        (failure) => ChargersFailure(failure),
         (chargers) =>
             chargers.isEmpty ? const ChargersEmpty() : ChargersLoaded(chargers),
       ),

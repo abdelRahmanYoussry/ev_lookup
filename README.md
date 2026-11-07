@@ -35,3 +35,4 @@ The data sources talk to a plain `http.Client`. In the app, `MockTransport` is i
 - Retry repeats the last registration that was submitted, even if I have edited the field since. "Not my car" clears it, so Retry does nothing after that.
 - I skipped the Hero animation. The car illustration appears on only one screen, so there is no pair to animate between.
 - Rubik is bundled in `google_fonts/` with its OFL license, and runtime font fetching is turned off, so the app never downloads fonts. Widget tests use a plain `MaterialApp` and fetch nothing.
+- All user-facing text is in `lib/l10n/app_en.arb` and generated with gen-l10n, so a new language is a new ARB file.

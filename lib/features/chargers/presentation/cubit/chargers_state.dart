@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/error/failure.dart';
 import '../../domain/entities/charger.dart';
 
 sealed class ChargersState extends Equatable {
@@ -26,9 +27,9 @@ class ChargersEmpty extends ChargersState {
 }
 
 class ChargersFailure extends ChargersState {
-  final String message;
-  const ChargersFailure(this.message);
+  final Failure failure;
+  const ChargersFailure(this.failure);
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [failure];
 }

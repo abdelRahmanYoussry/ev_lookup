@@ -1,0 +1,89 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "EV Lookup",
+
+  "registrationTitle": "Add your EV",
+  "registrationStep": "STEP 1 OF 2",
+  "registrationHeading": "What's your registration?",
+  "registrationSubtitle": "We look up your car so charging shows only chargers that fit, with real time and cost.",
+  "registrationHelper": "Check the plate on the back of your car.",
+  "findMyEv": "Find my EV",
+  "retry": "Retry",
+
+  "enterRegistration": "Enter your registration",
+  "vehicleNotFound": "Vehicle not found",
+  "networkError": "Check your connection and try again",
+  "unknownError": "Something went wrong",
+
+  "confirmationTitle": "Is this your car?",
+  "detailYear": "Year",
+  "detailBattery": "Battery",
+  "detailConnector": "Connector",
+  "batteryValue": "{kwh} kWh",
+  "@batteryValue": {
+    "placeholders": {
+      "kwh": {
+        "type": "int"
+      }
+    }
+  },
+  "yesAddMyEv": "Yes, add my EV",
+  "notMyCar": "Not my car",
+
+  "chargersHeading": "{count, plural, =0{0 chargers near you} =1{1 charger near you} other{{count} chargers near you}}",
+  "@chargersHeading": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chargersHeadingLoading": "Chargers near you",
+  "chargingSummary": "Charging 40% → 80%",
+  "chargerDetails": "{power} kW · {connector} · {free} of {total} free",
+  "@chargerDetails": {
+    "placeholders": {
+      "power": {
+        "type": "int"
+      },
+      "connector": {
+        "type": "String"
+      },
+      "free": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "chargerTimeLabel": "TIME",
+  "chargerTotalLabel": "TOTAL",
+  "minutesValue": "{minutes} min",
+  "@minutesValue": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "totalValue": "{amount}",
+  "@totalValue": {
+    "placeholders": {
+      "amount": {
+        "type": "double",
+        "format": "currency",
+        "optionalParameters": {
+          "symbol": "£",
+          "decimalDigits": 2
+        }
+      }
+    }
+  },
+
+  "chargersEmptyTitle": "No compatible chargers",
+  "chargersEmptyBody": "We could not find any chargers that fit your car.",
+  "goBack": "Go back",
+  "chargersFailureTitle": "Could not load chargers"
+}

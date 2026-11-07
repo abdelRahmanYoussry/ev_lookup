@@ -1,5 +1,6 @@
 import 'package:ev_lookup/core/di/services_locator.dart';
 import 'package:ev_lookup/core/router/app_router.dart';
+import 'package:ev_lookup/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -21,7 +22,9 @@ Future<void> pumpApp(
   addTearDown(tester.view.reset);
 
   await tester.pumpWidget(
-    const MaterialApp(
+    MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       initialRoute: AppRoutes.registration,
       onGenerateRoute: AppRouter.onGenerateRoute,
     ),

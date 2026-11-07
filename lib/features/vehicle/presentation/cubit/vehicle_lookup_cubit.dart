@@ -16,7 +16,7 @@ class VehicleLookupCubit extends Cubit<VehicleLookupState> {
 
     final registration = RegistrationNormalizer.normalize(raw);
     if (registration.isEmpty) {
-      emit(const VehicleLookupValidationError('Enter your registration'));
+      emit(const VehicleLookupValidationError());
       return;
     }
     await _submit(registration);
@@ -43,9 +43,8 @@ class VehicleLookupCubit extends Cubit<VehicleLookupState> {
     emit(
       result.fold(
         (failure) => switch (failure) {
-          NotFoundFailure() => VehicleLookupNotFound(failure.message),
-          NetworkFailure() ||
-          UnknownFailure() => VehicleLookupFailed(failure.message),
+          NotFoundFailure() => const VehicleLookupNotFound(),
+          NetworkFailure() || UnknownFailure() => VehicleLookupFailed(failure),
         },
         (vehicle) => VehicleLookupSuccess(vehicle, registration),
       ),

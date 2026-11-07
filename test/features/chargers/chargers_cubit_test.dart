@@ -76,10 +76,10 @@ void main() {
     setUp:
         () => when(
           () => getChargers('CCS'),
-        ).thenAnswer((_) async => const Left(NetworkFailure('No connection'))),
+        ).thenAnswer((_) async => const Left(NetworkFailure())),
     build: () => ChargersCubit(getChargers),
     act: (cubit) => cubit.load('CCS'),
-    expect: () => const [ChargersLoading(), ChargersFailure('No connection')],
+    expect: () => const [ChargersLoading(), ChargersFailure(NetworkFailure())],
   );
 
   blocTest<ChargersCubit, ChargersState>(
@@ -89,7 +89,7 @@ void main() {
       when(() => getChargers('CCS')).thenAnswer((_) async {
         final Either<Failure, List<Charger>> result =
             calls++ == 0
-                ? const Left(NetworkFailure('No connection'))
+                ? const Left(NetworkFailure())
                 : const Right([first, second]);
         return result;
       });
@@ -102,7 +102,7 @@ void main() {
     expect:
         () => const [
           ChargersLoading(),
-          ChargersFailure('No connection'),
+          ChargersFailure(NetworkFailure()),
           ChargersLoading(),
           ChargersLoaded([first, second]),
         ],

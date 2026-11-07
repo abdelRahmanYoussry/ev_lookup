@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:ev_lookup/features/chargers/presentation/cubit/chargers_cubit.dart';
 import 'package:ev_lookup/features/chargers/presentation/cubit/chargers_state.dart';
 import 'package:ev_lookup/features/chargers/presentation/screens/charger_list_screen.dart';
+import 'package:ev_lookup/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,6 +23,8 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: Builder(
           builder:
               (context) => Scaffold(

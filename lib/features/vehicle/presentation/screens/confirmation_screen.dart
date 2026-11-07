@@ -8,6 +8,7 @@ import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/gradient_background.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../../core/widgets/secondary_button.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/vehicle.dart';
 import '../widgets/car_illustration.dart';
 import '../widgets/plate_chip.dart';
@@ -25,6 +26,7 @@ class ConfirmationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       body: GradientBackground(
@@ -37,7 +39,7 @@ class ConfirmationScreen extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    Text('Is this your car?', style: text.titleMedium),
+                    Text(l10n.confirmationTitle, style: text.titleMedium),
                     const Positioned(
                       left: AppSpacing.gutter,
                       child: AppBackButton(),
@@ -90,15 +92,18 @@ class ConfirmationScreen extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-                            _DetailRow(label: 'Year', value: '${vehicle.year}'),
-                            const _RowDivider(),
                             _DetailRow(
-                              label: 'Battery',
-                              value: '${vehicle.batteryKwh} kWh',
+                              label: l10n.detailYear,
+                              value: '${vehicle.year}',
                             ),
                             const _RowDivider(),
                             _DetailRow(
-                              label: 'Connector',
+                              label: l10n.detailBattery,
+                              value: l10n.batteryValue(vehicle.batteryKwh),
+                            ),
+                            const _RowDivider(),
+                            _DetailRow(
+                              label: l10n.detailConnector,
                               value: vehicle.connector,
                             ),
                           ],
@@ -115,7 +120,7 @@ class ConfirmationScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     PrimaryButton(
-                      label: 'Yes, add my EV',
+                      label: l10n.yesAddMyEv,
                       onPressed:
                           () => Navigator.of(context).pushNamed(
                             AppRoutes.chargers,
@@ -124,7 +129,7 @@ class ConfirmationScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     SecondaryButton(
-                      label: 'Not my car',
+                      label: l10n.notMyCar,
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                   ],

@@ -6,6 +6,8 @@ import '../../../../core/widgets/app_back_button.dart';
 import '../../../../core/widgets/gradient_background.dart';
 import '../../../../core/widgets/primary_button.dart';
 import '../../../../core/widgets/secondary_button.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../../l10n/failure_message.dart';
 import '../cubit/chargers_cubit.dart';
 import '../cubit/chargers_state.dart';
 import '../widgets/charger_card.dart';
@@ -18,16 +20,16 @@ class ChargerListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
 
     return BlocBuilder<ChargersCubit, ChargersState>(
       builder: (context, state) {
         final heading = switch (state) {
-          ChargersLoaded(:final chargers) when chargers.length == 1 =>
-            '1 charger near you',
-          ChargersLoaded(:final chargers) =>
-            '${chargers.length} chargers near you',
-          ChargersEmpty() => '0 chargers near you',
-          _ => 'Chargers near you',
+          ChargersLoaded(:final chargers) => l10n.chargersHeading(
+            chargers.length,
+          ),
+          ChargersEmpty() => l10n.chargersHeading(0),
+          _ => l10n.chargersHeadingLoading,
         };
 
         return Scaffold(
@@ -63,6 +65,8 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return switch (state) {
       ChargersLoading() => _list([
         for (var i = 0; i < 3; i++) const ChargerSkeleton(),
@@ -71,18 +75,18 @@ class _Body extends StatelessWidget {
         for (final charger in chargers) ChargerCard(charger: charger),
       ]),
       ChargersEmpty() => _Message(
-        title: 'No compatible chargers',
-        body: 'We could not find any chargers that fit your car.',
+        title: l10n.chargersEmptyTitle,
+        body: l10n.chargersEmptyBody,
         button: SecondaryButton(
-          label: 'Go back',
+          label: l10n.goBack,
           onPressed: () => Navigator.of(context).maybePop(),
         ),
       ),
-      ChargersFailure(:final message) => _Message(
-        title: 'Could not load chargers',
-        body: message,
+      ChargersFailure(:final failure) => _Message(
+        title: l10n.chargersFailureTitle,
+        body: l10n.failureMessage(failure),
         button: PrimaryButton(
-          label: 'Retry',
+          label: l10n.retry,
           onPressed: () => context.read<ChargersCubit>().retry(),
         ),
       ),

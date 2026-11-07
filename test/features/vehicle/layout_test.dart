@@ -2,6 +2,7 @@ import 'package:ev_lookup/core/widgets/app_back_button.dart';
 import 'package:ev_lookup/features/vehicle/domain/entities/vehicle.dart';
 import 'package:ev_lookup/features/vehicle/presentation/screens/confirmation_screen.dart';
 import 'package:ev_lookup/features/vehicle/presentation/widgets/plate_input.dart';
+import 'package:ev_lookup/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -18,6 +19,8 @@ void main() {
     phoneSize(tester);
     await tester.pumpWidget(
       MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         // The test font is one em wide per glyph, so a smaller title keeps
         // its width close to the real font.
         theme: ThemeData(
@@ -64,6 +67,8 @@ void main() {
     addTearDown(controller.dispose);
     await tester.pumpWidget(
       MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: PlateInput(controller: controller, onSubmitted: (_) {}),
         ),

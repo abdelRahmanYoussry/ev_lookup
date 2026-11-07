@@ -6,6 +6,8 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/widgets/gradient_background.dart';
 import '../../../../core/widgets/primary_button.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../../l10n/failure_message.dart';
 import '../cubit/vehicle_lookup_cubit.dart';
 import '../cubit/vehicle_lookup_state.dart';
 import '../widgets/plate_input.dart';
@@ -39,22 +41,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
 
     return BlocConsumer<VehicleLookupCubit, VehicleLookupState>(
       listenWhen: (_, current) => current is VehicleLookupSuccess,
       listener: (context, state) async {
         if (state is! VehicleLookupSuccess) return;
         final cubit = context.read<VehicleLookupCubit>();
-        await Navigator.of(
-          context,
-        ).pushNamed(AppRoutes.confirmation, arguments: state);
+        await Navigator.of(context).pushNamed(AppRoutes.confirmation, arguments: state);
         if (context.mounted) cubit.reset();
       },
       builder: (context, state) {
         final message = switch (state) {
-          VehicleLookupValidationError(:final message) ||
-          VehicleLookupNotFound(:final message) ||
-          VehicleLookupFailed(:final message) => message,
+          VehicleLookupValidationError() => l10n.enterRegistration,
+          VehicleLookupNotFound() => l10n.vehicleNotFound,
+          VehicleLookupFailed(:final failure) => l10n.failureMessage(failure),
           _ => null,
         };
         final loading = state is VehicleLookupLoading;
@@ -64,70 +65,37 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             child: SafeArea(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 64,
-                    child: Center(
-                      child: Text('Add your EV', style: text.titleMedium),
-                    ),
-                  ),
+                  SizedBox(height: 64, child: Center(child: Text(l10n.registrationTitle, style: text.titleMedium))),
                   Expanded(
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.gutter,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.gutter),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 16),
-                          Text('STEP 1 OF 2', style: text.labelSmall),
+                          Text(l10n.registrationStep, style: text.labelSmall),
                           const SizedBox(height: 8),
-                          Text(
-                            "What's your registration?",
-                            style: text.headlineMedium,
-                          ),
+                          Text(l10n.registrationHeading, style: text.headlineMedium),
                           const SizedBox(height: 8),
-                          Text(
-                            'We look up your car so charging shows only '
-                            'chargers that fit, with real time and cost.',
-                            style: text.bodyMedium,
-                          ),
+                          Text(l10n.registrationSubtitle, style: text.bodyMedium),
                           const SizedBox(height: 20),
-                          PlateInput(
-                            controller: _controller,
-                            onSubmitted: (_) => _submit(context),
-                          ),
+                          PlateInput(controller: _controller, onSubmitted: (_) => _submit(context)),
                           const SizedBox(height: 8),
                           if (message == null)
-                            Text(
-                              'Check the plate on the back of your car.',
-                              style: text.bodySmall,
-                            )
+                            Text(l10n.registrationHelper, style: text.bodySmall)
                           else
                             Row(
                               children: [
-                                Expanded(
-                                  child: Text(
-                                    message,
-                                    style: text.bodySmall?.copyWith(
-                                      color: AppColors.error,
-                                    ),
-                                  ),
-                                ),
+                                Expanded(child: Text(message, style: text.bodySmall?.copyWith(color: AppColors.error))),
                                 if (state is VehicleLookupFailed)
                                   TextButton(
                                     onPressed: () => _retry(context),
                                     style: TextButton.styleFrom(
                                       minimumSize: const Size(0, 32),
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                      ),
-                                      tapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
+                                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                     ),
-                                    child: Text(
-                                      'Retry',
-                                      style: text.labelLarge,
-                                    ),
+                                    child: Text(l10n.retry, style: text.labelLarge),
                                   ),
                               ],
                             ),
@@ -135,13 +103,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(AppSpacing.gutter),
-                    child: PrimaryButton(
-                      label: 'Find my EV',
-                      onPressed: loading ? null : () => _submit(context),
-                    ),
-                  ),
+                  Padding(padding: const EdgeInsets.all(AppSpacing.gutter), child: PrimaryButton(label: l10n.findMyEv, onPressed: loading ? null : () => _submit(context))),
                 ],
               ),
             ),

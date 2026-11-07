@@ -22,11 +22,11 @@ class ChargerRepository implements BaseChargerRepository {
     } on NotFoundException catch (e) {
       return Left(NotFoundFailure(e.message));
     } on http.ClientException {
-      return const Left(NetworkFailure('Check your connection and try again'));
+      return const Left(NetworkFailure());
     } on SocketException {
-      return const Left(NetworkFailure('Check your connection and try again'));
+      return const Left(NetworkFailure());
     } catch (_) {
-      return const Left(UnknownFailure('Something went wrong'));
+      return const Left(UnknownFailure());
     }
   }
 }
