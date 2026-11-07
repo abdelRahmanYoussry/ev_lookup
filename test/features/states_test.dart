@@ -52,7 +52,7 @@ void main() {
   });
 
   group('charger list', () {
-    testWidgets('shows static skeleton cards while loading', (tester) async {
+    testWidgets('shows skeleton cards while loading', (tester) async {
       await pumpApp(tester);
       await submitRegistration(tester, 'tf24 lpo');
 

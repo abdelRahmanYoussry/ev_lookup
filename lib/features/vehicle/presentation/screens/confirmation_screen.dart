@@ -72,7 +72,7 @@ class ConfirmationScreen extends StatelessWidget {
                             Text(
                               '${vehicle.make} ${vehicle.model}',
                               textAlign: TextAlign.center,
-                              style: text.titleMedium?.copyWith(
+                              style: text.titleLarge?.copyWith(
                                 color: Colors.white,
                                 fontSize: 20,
                               ),

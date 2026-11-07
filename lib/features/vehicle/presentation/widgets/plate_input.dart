@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
@@ -55,6 +56,7 @@ class PlateInput extends StatelessWidget {
                 autocorrect: false,
                 enableSuggestions: false,
                 maxLines: 1,
+                inputFormatters: [LengthLimitingTextInputFormatter(10)],
                 cursorColor: AppColors.textPrimary,
                 style: plateStyle,
                 decoration: InputDecoration(

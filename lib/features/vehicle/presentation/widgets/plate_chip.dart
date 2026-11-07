@@ -47,9 +47,8 @@ class PlateChip extends StatelessWidget {
             child: Center(
               child: Text(
                 formatPlate(registration),
-                style: text.titleMedium?.copyWith(
+                style: text.titleLarge?.copyWith(
                   fontSize: 17,
-                  fontWeight: FontWeight.w700,
                   letterSpacing: 0.5,
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
@@ -12,9 +13,10 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final radius = BorderRadius.circular(AppSpacing.buttonHeight / 2);
+    final callback = onPressed;
 
     return Opacity(
-      opacity: onPressed == null ? 0.5 : 1,
+      opacity: callback == null ? 0.5 : 1,
       child: Material(
         color: Colors.transparent,
         child: Ink(
@@ -30,7 +32,12 @@ class PrimaryButton extends StatelessWidget {
           ),
           child: InkWell(
             borderRadius: radius,
-            onTap: onPressed,
+            onTap: callback == null
+                ? null
+                : () {
+                    HapticFeedback.lightImpact();
+                    callback();
+                  },
             child: SizedBox(
               height: AppSpacing.buttonHeight,
               width: double.infinity,

@@ -20,7 +20,10 @@ void main() {
         // The test font is one em wide per glyph, so a smaller title keeps
         // its width close to the real font.
         theme: ThemeData(
-          textTheme: const TextTheme(titleMedium: TextStyle(fontSize: 8)),
+          textTheme: const TextTheme(
+            titleMedium: TextStyle(fontSize: 8),
+            titleLarge: TextStyle(fontWeight: FontWeight.w300),
+          ),
         ),
         home: const ConfirmationScreen(
           vehicle: Vehicle(
@@ -42,6 +45,11 @@ void main() {
     expect(back.left, 16);
     expect(back.right, lessThan(title.left));
     expect(title.center.dx, closeTo(180, 0.5));
+    // The weight must come from the theme, not from a widget override.
+    expect(
+      tester.widget<Text>(find.text('Audi Q8 e-tron 55 quattro')).style?.fontWeight,
+      FontWeight.w300,
+    );
   });
 
   testWidgets('plate input keeps long text on one line and centred',
@@ -63,6 +71,7 @@ void main() {
     final plate = tester.getRect(find.byType(PlateInput));
     final field = tester.getRect(find.byType(TextField));
     expect(tester.takeException(), isNull);
+    expect(controller.text, 'TF24 LPO T');
     expect(plate.height, 68);
     expect(field.center.dy, closeTo(plate.center.dy, 0.5));
   });

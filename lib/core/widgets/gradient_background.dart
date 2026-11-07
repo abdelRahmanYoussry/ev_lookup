@@ -11,23 +11,37 @@ class GradientBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        const Positioned(
+        Positioned(
           top: 0,
           left: 0,
           right: 0,
           height: 320,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  AppColors.headerStart,
-                  AppColors.headerEnd,
-                  AppColors.pageBackground,
-                ],
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              const DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [AppColors.headerStart, AppColors.headerEnd],
+                  ),
+                ),
               ),
-            ),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      AppColors.pageBackground.withValues(alpha: 0),
+                      AppColors.pageBackground,
+                    ],
+                    stops: const [0.2, 1],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         Positioned.fill(child: child),
