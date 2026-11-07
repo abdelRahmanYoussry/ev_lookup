@@ -5,10 +5,12 @@ import '../../features/chargers/data/data_sources/charger_remote_data_source.dar
 import '../../features/chargers/data/repositories/charger_repository.dart';
 import '../../features/chargers/domain/repositories/base_charger_repository.dart';
 import '../../features/chargers/domain/use_cases/get_compatible_chargers.dart';
+import '../../features/chargers/presentation/cubit/chargers_cubit.dart';
 import '../../features/vehicle/data/data_sources/vehicle_remote_data_source.dart';
 import '../../features/vehicle/data/repositories/vehicle_repository.dart';
 import '../../features/vehicle/domain/repositories/base_vehicle_repository.dart';
 import '../../features/vehicle/domain/use_cases/lookup_vehicle.dart';
+import '../../features/vehicle/presentation/cubit/vehicle_lookup_cubit.dart';
 import '../../mock/mock_transport.dart';
 
 final sl = GetIt.instance;
@@ -29,6 +31,7 @@ void setupServiceLocator() {
     () => VehicleRepository(sl()),
   );
   sl.registerLazySingleton(() => LookupVehicle(sl()));
+  sl.registerFactory(() => VehicleLookupCubit(sl()));
 
   sl.registerLazySingleton<BaseChargerRemoteDataSource>(
     () => ChargerRemoteDataSource(sl()),
@@ -37,4 +40,5 @@ void setupServiceLocator() {
     () => ChargerRepository(sl()),
   );
   sl.registerLazySingleton(() => GetCompatibleChargers(sl()));
+  sl.registerFactory(() => ChargersCubit(sl()));
 }
