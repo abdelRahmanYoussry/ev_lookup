@@ -6,8 +6,8 @@ import 'package:ev_lookup/mock/mock_transport.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 GetCompatibleChargers useCase(MockTransport transport) => GetCompatibleChargers(
-      ChargerRepository(ChargerRemoteDataSource(transport)),
-    );
+  ChargerRepository(ChargerRemoteDataSource(transport)),
+);
 
 void main() {
   test('CCS returns c1 then c2 and excludes c3', () async {

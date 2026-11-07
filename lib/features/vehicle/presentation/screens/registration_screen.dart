@@ -45,18 +45,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       listener: (context, state) async {
         if (state is! VehicleLookupSuccess) return;
         final cubit = context.read<VehicleLookupCubit>();
-        await Navigator.of(context).pushNamed(
-          AppRoutes.confirmation,
-          arguments: state,
-        );
+        await Navigator.of(
+          context,
+        ).pushNamed(AppRoutes.confirmation, arguments: state);
         if (context.mounted) cubit.reset();
       },
       builder: (context, state) {
         final message = switch (state) {
           VehicleLookupValidationError(:final message) ||
           VehicleLookupNotFound(:final message) ||
-          VehicleLookupFailed(:final message) =>
-            message,
+          VehicleLookupFailed(:final message) => message,
           _ => null,
         };
         final loading = state is VehicleLookupLoading;
@@ -126,7 +124,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       tapTargetSize:
                                           MaterialTapTargetSize.shrinkWrap,
                                     ),
-                                    child: Text('Retry', style: text.labelLarge),
+                                    child: Text(
+                                      'Retry',
+                                      style: text.labelLarge,
+                                    ),
                                   ),
                               ],
                             ),

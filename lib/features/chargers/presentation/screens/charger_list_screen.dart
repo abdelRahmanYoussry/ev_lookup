@@ -65,27 +65,27 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return switch (state) {
       ChargersLoading() => _list([
-          for (var i = 0; i < 3; i++) const ChargerSkeleton(),
-        ]),
+        for (var i = 0; i < 3; i++) const ChargerSkeleton(),
+      ]),
       ChargersLoaded(:final chargers) => _list([
-          for (final charger in chargers) ChargerCard(charger: charger),
-        ]),
+        for (final charger in chargers) ChargerCard(charger: charger),
+      ]),
       ChargersEmpty() => _Message(
-          title: 'No compatible chargers',
-          body: 'We could not find any chargers that fit your car.',
-          button: SecondaryButton(
-            label: 'Go back',
-            onPressed: () => Navigator.of(context).maybePop(),
-          ),
+        title: 'No compatible chargers',
+        body: 'We could not find any chargers that fit your car.',
+        button: SecondaryButton(
+          label: 'Go back',
+          onPressed: () => Navigator.of(context).maybePop(),
         ),
+      ),
       ChargersFailure(:final message) => _Message(
-          title: 'Could not load chargers',
-          body: message,
-          button: PrimaryButton(
-            label: 'Retry',
-            onPressed: () => context.read<ChargersCubit>().retry(),
-          ),
+        title: 'Could not load chargers',
+        body: message,
+        button: PrimaryButton(
+          label: 'Retry',
+          onPressed: () => context.read<ChargersCubit>().retry(),
         ),
+      ),
     };
   }
 

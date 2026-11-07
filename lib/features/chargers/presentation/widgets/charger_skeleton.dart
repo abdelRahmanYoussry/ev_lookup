@@ -28,19 +28,21 @@ class _ChargerSkeletonState extends State<ChargerSkeleton>
     return AppCard(
       child: AnimatedBuilder(
         animation: _controller,
-        builder: (context, child) => ShaderMask(
-          blendMode: BlendMode.srcATop,
-          shaderCallback: (bounds) => LinearGradient(
-            colors: const [
-              AppColors.ringTrack,
-              AppColors.neutralTile,
-              AppColors.ringTrack,
-            ],
-            stops: const [0.35, 0.5, 0.65],
-            transform: _SlideTransform(_controller.value * 2 - 1),
-          ).createShader(bounds),
-          child: child,
-        ),
+        builder:
+            (context, child) => ShaderMask(
+              blendMode: BlendMode.srcATop,
+              shaderCallback:
+                  (bounds) => LinearGradient(
+                    colors: const [
+                      AppColors.ringTrack,
+                      AppColors.neutralTile,
+                      AppColors.ringTrack,
+                    ],
+                    stops: const [0.35, 0.5, 0.65],
+                    transform: _SlideTransform(_controller.value * 2 - 1),
+                  ).createShader(bounds),
+              child: child,
+            ),
         child: const _Placeholder(),
       ),
     );

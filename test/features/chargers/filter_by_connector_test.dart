@@ -3,15 +3,15 @@ import 'package:ev_lookup/features/chargers/domain/use_cases/get_compatible_char
 import 'package:flutter_test/flutter_test.dart';
 
 Charger charger(String id, String connector) => Charger(
-      id: id,
-      name: 'Charger $id',
-      connector: connector,
-      powerKw: 50,
-      freeBays: 1,
-      totalBays: 2,
-      minutes: 30,
-      totalGbp: 10,
-    );
+  id: id,
+  name: 'Charger $id',
+  connector: connector,
+  powerKw: 50,
+  freeBays: 1,
+  totalBays: 2,
+  minutes: 30,
+  totalGbp: 10,
+);
 
 void main() {
   final chargers = [

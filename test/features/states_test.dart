@@ -17,8 +17,9 @@ void main() {
       expect(find.text('Retry'), findsNothing);
     });
 
-    testWidgets('not found shows the message without Retry, then recovers',
-        (tester) async {
+    testWidgets('not found shows the message without Retry, then recovers', (
+      tester,
+    ) async {
       await pumpApp(tester);
 
       await submitRegistration(tester, 'ab12 cde');
@@ -31,8 +32,9 @@ void main() {
       expect(find.text('Is this your car?'), findsOneWidget);
     });
 
-    testWidgets('failure shows Retry that repeats the submitted registration',
-        (tester) async {
+    testWidgets('failure shows Retry that repeats the submitted registration', (
+      tester,
+    ) async {
       await pumpApp(tester, failLookupOnce: true);
 
       await submitRegistration(tester, 'tf24 lpo');
@@ -69,8 +71,7 @@ void main() {
       expect(find.byType(ChargerSkeleton), findsNothing);
     });
 
-    testWidgets('failure shows the message and Retry recovers',
-        (tester) async {
+    testWidgets('failure shows the message and Retry recovers', (tester) async {
       await pumpApp(tester, failChargersOnce: true);
       await submitRegistration(tester, 'tf24 lpo');
       await openChargers(tester);
@@ -87,8 +88,9 @@ void main() {
       expect(find.text('2 chargers near you'), findsOneWidget);
     });
 
-    testWidgets('empty list shows a message and Go back returns',
-        (tester) async {
+    testWidgets('empty list shows a message and Go back returns', (
+      tester,
+    ) async {
       await pumpApp(tester, emptyChargers: true);
       await submitRegistration(tester, 'tf24 lpo');
       await openChargers(tester);

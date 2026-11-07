@@ -10,11 +10,11 @@ void main() {
     haptics.clear();
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(SystemChannels.platform, (call) async {
-      if (call.method == 'HapticFeedback.vibrate') {
-        haptics.add(call.arguments as String?);
-      }
-      return null;
-    });
+          if (call.method == 'HapticFeedback.vibrate') {
+            haptics.add(call.arguments as String?);
+          }
+          return null;
+        });
   });
 
   tearDown(() {
@@ -23,10 +23,8 @@ void main() {
   });
 
   Widget app({VoidCallback? onPressed}) => MaterialApp(
-        home: Scaffold(
-          body: PrimaryButton(label: 'Go', onPressed: onPressed),
-        ),
-      );
+    home: Scaffold(body: PrimaryButton(label: 'Go', onPressed: onPressed)),
+  );
 
   testWidgets('an enabled button gives light haptic feedback', (tester) async {
     var taps = 0;

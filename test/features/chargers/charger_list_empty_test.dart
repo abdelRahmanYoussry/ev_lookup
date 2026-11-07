@@ -10,8 +10,9 @@ class MockChargersCubit extends MockCubit<ChargersState>
     implements ChargersCubit {}
 
 void main() {
-  testWidgets('empty chargers state explains and lets the user go back',
-      (tester) async {
+  testWidgets('empty chargers state explains and lets the user go back', (
+    tester,
+  ) async {
     final cubit = MockChargersCubit();
     whenListen(
       cubit,
@@ -22,19 +23,22 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: Builder(
-          builder: (context) => Scaffold(
-            body: TextButton(
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => BlocProvider<ChargersCubit>.value(
-                    value: cubit,
-                    child: const ChargerListScreen(),
-                  ),
+          builder:
+              (context) => Scaffold(
+                body: TextButton(
+                  onPressed:
+                      () => Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder:
+                              (_) => BlocProvider<ChargersCubit>.value(
+                                value: cubit,
+                                child: const ChargerListScreen(),
+                              ),
+                        ),
+                      ),
+                  child: const Text('open'),
                 ),
               ),
-              child: const Text('open'),
-            ),
-          ),
         ),
       ),
     );

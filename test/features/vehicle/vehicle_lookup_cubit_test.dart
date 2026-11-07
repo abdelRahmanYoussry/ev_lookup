@@ -28,7 +28,10 @@ void main() {
     lookupVehicle = MockLookupVehicle();
   });
 
-  void stub(Either<Failure, Vehicle> result, {String registration = 'TF24LPO'}) {
+  void stub(
+    Either<Failure, Vehicle> result, {
+    String registration = 'TF24LPO',
+  }) {
     when(() => lookupVehicle(registration)).thenAnswer((_) async => result);
   }
 
@@ -37,25 +40,28 @@ void main() {
     setUp: () => stub(const Right(vehicle)),
     build: () => VehicleLookupCubit(lookupVehicle),
     act: (cubit) => cubit.lookup('tf24 lpo'),
-    expect: () => const [
-      VehicleLookupLoading(),
-      VehicleLookupSuccess(vehicle, 'TF24LPO'),
-    ],
+    expect:
+        () => const [
+          VehicleLookupLoading(),
+          VehicleLookupSuccess(vehicle, 'TF24LPO'),
+        ],
     verify: (_) => verify(() => lookupVehicle('TF24LPO')).called(1),
   );
 
   blocTest<VehicleLookupCubit, VehicleLookupState>(
     'emits notFound with the failure message',
-    setUp: () => stub(
-      const Left(NotFoundFailure('Vehicle not found')),
-      registration: 'AB12CDE',
-    ),
+    setUp:
+        () => stub(
+          const Left(NotFoundFailure('Vehicle not found')),
+          registration: 'AB12CDE',
+        ),
     build: () => VehicleLookupCubit(lookupVehicle),
     act: (cubit) => cubit.lookup('ab12 cde'),
-    expect: () => const [
-      VehicleLookupLoading(),
-      VehicleLookupNotFound('Vehicle not found'),
-    ],
+    expect:
+        () => const [
+          VehicleLookupLoading(),
+          VehicleLookupNotFound('Vehicle not found'),
+        ],
   );
 
   blocTest<VehicleLookupCubit, VehicleLookupState>(
@@ -63,10 +69,11 @@ void main() {
     setUp: () => stub(const Left(NetworkFailure('No connection'))),
     build: () => VehicleLookupCubit(lookupVehicle),
     act: (cubit) => cubit.lookup('TF24LPO'),
-    expect: () => const [
-      VehicleLookupLoading(),
-      VehicleLookupFailed('No connection'),
-    ],
+    expect:
+        () => const [
+          VehicleLookupLoading(),
+          VehicleLookupFailed('No connection'),
+        ],
   );
 
   blocTest<VehicleLookupCubit, VehicleLookupState>(
@@ -74,32 +81,38 @@ void main() {
     setUp: () => stub(const Left(UnknownFailure('Something went wrong'))),
     build: () => VehicleLookupCubit(lookupVehicle),
     act: (cubit) => cubit.lookup('TF24LPO'),
-    expect: () => const [
-      VehicleLookupLoading(),
-      VehicleLookupFailed('Something went wrong'),
-    ],
+    expect:
+        () => const [
+          VehicleLookupLoading(),
+          VehicleLookupFailed('Something went wrong'),
+        ],
   );
 
   blocTest<VehicleLookupCubit, VehicleLookupState>(
     'blank input emits a validation error and sends no request',
     build: () => VehicleLookupCubit(lookupVehicle),
     act: (cubit) => cubit.lookup('   '),
-    expect: () => const [VehicleLookupValidationError('Enter your registration')],
+    expect:
+        () => const [VehicleLookupValidationError('Enter your registration')],
     verify: (_) => verifyNever(() => lookupVehicle(any())),
   );
 
   blocTest<VehicleLookupCubit, VehicleLookupState>(
     'ignores a second lookup while loading',
-    setUp: () => when(() => lookupVehicle('TF24LPO')).thenAnswer((_) async {
-      await Future<void>.delayed(const Duration(milliseconds: 20));
-      return const Right(vehicle);
-    }),
+    setUp:
+        () => when(() => lookupVehicle('TF24LPO')).thenAnswer((_) async {
+          await Future<void>.delayed(const Duration(milliseconds: 20));
+          return const Right(vehicle);
+        }),
     build: () => VehicleLookupCubit(lookupVehicle),
-    act: (cubit) => Future.wait([cubit.lookup('TF24LPO'), cubit.lookup('TF24LPO')]),
-    expect: () => const [
-      VehicleLookupLoading(),
-      VehicleLookupSuccess(vehicle, 'TF24LPO'),
-    ],
+    act:
+        (cubit) =>
+            Future.wait([cubit.lookup('TF24LPO'), cubit.lookup('TF24LPO')]),
+    expect:
+        () => const [
+          VehicleLookupLoading(),
+          VehicleLookupSuccess(vehicle, 'TF24LPO'),
+        ],
     verify: (_) => verify(() => lookupVehicle('TF24LPO')).called(1),
   );
 
@@ -108,9 +121,10 @@ void main() {
     setUp: () {
       var calls = 0;
       when(() => lookupVehicle('TF24LPO')).thenAnswer((_) async {
-        final Either<Failure, Vehicle> result = calls++ == 0
-            ? const Left(NetworkFailure('No connection'))
-            : const Right(vehicle);
+        final Either<Failure, Vehicle> result =
+            calls++ == 0
+                ? const Left(NetworkFailure('No connection'))
+                : const Right(vehicle);
         return result;
       });
     },
@@ -119,12 +133,13 @@ void main() {
       await cubit.lookup('tf24 lpo');
       await cubit.retry();
     },
-    expect: () => const [
-      VehicleLookupLoading(),
-      VehicleLookupFailed('No connection'),
-      VehicleLookupLoading(),
-      VehicleLookupSuccess(vehicle, 'TF24LPO'),
-    ],
+    expect:
+        () => const [
+          VehicleLookupLoading(),
+          VehicleLookupFailed('No connection'),
+          VehicleLookupLoading(),
+          VehicleLookupSuccess(vehicle, 'TF24LPO'),
+        ],
     verify: (_) => verify(() => lookupVehicle('TF24LPO')).called(2),
   );
 
@@ -150,10 +165,11 @@ void main() {
 
   blocTest<VehicleLookupCubit, VehicleLookupState>(
     'retry is ignored while loading',
-    setUp: () => when(() => lookupVehicle('TF24LPO')).thenAnswer((_) async {
-      await Future<void>.delayed(const Duration(milliseconds: 20));
-      return const Right(vehicle);
-    }),
+    setUp:
+        () => when(() => lookupVehicle('TF24LPO')).thenAnswer((_) async {
+          await Future<void>.delayed(const Duration(milliseconds: 20));
+          return const Right(vehicle);
+        }),
     build: () => VehicleLookupCubit(lookupVehicle),
     act: (cubit) => Future.wait([cubit.lookup('TF24LPO'), cubit.retry()]),
     verify: (_) => verify(() => lookupVehicle('TF24LPO')).called(1),
@@ -167,11 +183,12 @@ void main() {
       await cubit.lookup('TF24LPO');
       cubit.reset();
     },
-    expect: () => const [
-      VehicleLookupLoading(),
-      VehicleLookupSuccess(vehicle, 'TF24LPO'),
-      VehicleLookupInitial(),
-    ],
+    expect:
+        () => const [
+          VehicleLookupLoading(),
+          VehicleLookupSuccess(vehicle, 'TF24LPO'),
+          VehicleLookupInitial(),
+        ],
   );
 
   test('does not emit when closed while a request is in flight', () async {

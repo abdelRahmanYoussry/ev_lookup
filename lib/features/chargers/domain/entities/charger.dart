@@ -23,13 +23,13 @@ class Charger extends Equatable {
 
   @override
   List<Object> get props => [
-        id,
-        name,
-        connector,
-        powerKw,
-        freeBays,
-        totalBays,
-        minutes,
-        totalGbp,
-      ];
+    id,
+    name,
+    connector,
+    powerKw,
+    freeBays,
+    totalBays,
+    minutes,
+    totalGbp,
+  ];
 }

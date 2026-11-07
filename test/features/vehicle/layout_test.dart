@@ -12,8 +12,9 @@ void phoneSize(WidgetTester tester) {
 }
 
 void main() {
-  testWidgets('back button sits at the gutter and clears the title',
-      (tester) async {
+  testWidgets('back button sits at the gutter and clears the title', (
+    tester,
+  ) async {
     phoneSize(tester);
     await tester.pumpWidget(
       MaterialApp(
@@ -47,13 +48,17 @@ void main() {
     expect(title.center.dx, closeTo(180, 0.5));
     // The weight must come from the theme, not from a widget override.
     expect(
-      tester.widget<Text>(find.text('Audi Q8 e-tron 55 quattro')).style?.fontWeight,
+      tester
+          .widget<Text>(find.text('Audi Q8 e-tron 55 quattro'))
+          .style
+          ?.fontWeight,
       FontWeight.w300,
     );
   });
 
-  testWidgets('plate input keeps long text on one line and centred',
-      (tester) async {
+  testWidgets('plate input keeps long text on one line and centred', (
+    tester,
+  ) async {
     phoneSize(tester);
     final controller = TextEditingController();
     addTearDown(controller.dispose);
@@ -65,7 +70,10 @@ void main() {
       ),
     );
 
-    await tester.enterText(find.byType(TextField), 'TF24 LPO TF24 LPO TF24 LPO');
+    await tester.enterText(
+      find.byType(TextField),
+      'TF24 LPO TF24 LPO TF24 LPO',
+    );
     await tester.pump();
 
     final plate = tester.getRect(find.byType(PlateInput));

@@ -21,9 +21,9 @@ abstract final class AppRouter {
       AppRoutes.confirmation => _confirmation(settings.arguments),
       AppRoutes.chargers => _chargers(settings.arguments),
       _ => BlocProvider(
-          create: (_) => sl<VehicleLookupCubit>(),
-          child: const RegistrationScreen(),
-        ),
+        create: (_) => sl<VehicleLookupCubit>(),
+        child: const RegistrationScreen(),
+      ),
     };
     return PageRouteBuilder<void>(
       settings: settings,

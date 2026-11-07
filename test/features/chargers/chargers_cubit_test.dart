@@ -47,20 +47,25 @@ void main() {
 
   blocTest<ChargersCubit, ChargersState>(
     'emits loaded with the chargers in order',
-    setUp: () => when(() => getChargers('CCS'))
-        .thenAnswer((_) async => const Right([first, second])),
+    setUp:
+        () => when(
+          () => getChargers('CCS'),
+        ).thenAnswer((_) async => const Right([first, second])),
     build: () => ChargersCubit(getChargers),
     act: (cubit) => cubit.load('CCS'),
-    expect: () => const [
-      ChargersLoading(),
-      ChargersLoaded([first, second]),
-    ],
+    expect:
+        () => const [
+          ChargersLoading(),
+          ChargersLoaded([first, second]),
+        ],
   );
 
   blocTest<ChargersCubit, ChargersState>(
     'emits empty when nothing is compatible',
-    setUp: () => when(() => getChargers('CCS'))
-        .thenAnswer((_) async => const Right(<Charger>[])),
+    setUp:
+        () => when(
+          () => getChargers('CCS'),
+        ).thenAnswer((_) async => const Right(<Charger>[])),
     build: () => ChargersCubit(getChargers),
     act: (cubit) => cubit.load('CCS'),
     expect: () => const [ChargersLoading(), ChargersEmpty()],
@@ -68,8 +73,10 @@ void main() {
 
   blocTest<ChargersCubit, ChargersState>(
     'emits failure with the failure message',
-    setUp: () => when(() => getChargers('CCS'))
-        .thenAnswer((_) async => const Left(NetworkFailure('No connection'))),
+    setUp:
+        () => when(
+          () => getChargers('CCS'),
+        ).thenAnswer((_) async => const Left(NetworkFailure('No connection'))),
     build: () => ChargersCubit(getChargers),
     act: (cubit) => cubit.load('CCS'),
     expect: () => const [ChargersLoading(), ChargersFailure('No connection')],
@@ -80,9 +87,10 @@ void main() {
     setUp: () {
       var calls = 0;
       when(() => getChargers('CCS')).thenAnswer((_) async {
-        final Either<Failure, List<Charger>> result = calls++ == 0
-            ? const Left(NetworkFailure('No connection'))
-            : const Right([first, second]);
+        final Either<Failure, List<Charger>> result =
+            calls++ == 0
+                ? const Left(NetworkFailure('No connection'))
+                : const Right([first, second]);
         return result;
       });
     },
@@ -91,12 +99,13 @@ void main() {
       await cubit.load('CCS');
       await cubit.retry();
     },
-    expect: () => const [
-      ChargersLoading(),
-      ChargersFailure('No connection'),
-      ChargersLoading(),
-      ChargersLoaded([first, second]),
-    ],
+    expect:
+        () => const [
+          ChargersLoading(),
+          ChargersFailure('No connection'),
+          ChargersLoading(),
+          ChargersLoaded([first, second]),
+        ],
     verify: (_) => verify(() => getChargers('CCS')).called(2),
   );
 

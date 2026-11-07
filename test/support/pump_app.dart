@@ -28,7 +28,10 @@ Future<void> pumpApp(
   );
 }
 
-Future<void> submitRegistration(WidgetTester tester, String registration) async {
+Future<void> submitRegistration(
+  WidgetTester tester,
+  String registration,
+) async {
   await tester.enterText(find.byType(TextField), registration);
   await tester.tap(find.text('Find my EV'));
   await tester.pump();

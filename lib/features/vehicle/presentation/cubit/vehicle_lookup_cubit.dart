@@ -45,8 +45,7 @@ class VehicleLookupCubit extends Cubit<VehicleLookupState> {
         (failure) => switch (failure) {
           NotFoundFailure() => VehicleLookupNotFound(failure.message),
           NetworkFailure() ||
-          UnknownFailure() =>
-            VehicleLookupFailed(failure.message),
+          UnknownFailure() => VehicleLookupFailed(failure.message),
         },
         (vehicle) => VehicleLookupSuccess(vehicle, registration),
       ),

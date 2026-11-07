@@ -116,10 +116,11 @@ class ConfirmationScreen extends StatelessWidget {
                   children: [
                     PrimaryButton(
                       label: 'Yes, add my EV',
-                      onPressed: () => Navigator.of(context).pushNamed(
-                        AppRoutes.chargers,
-                        arguments: vehicle.connector,
-                      ),
+                      onPressed:
+                          () => Navigator.of(context).pushNamed(
+                            AppRoutes.chargers,
+                            arguments: vehicle.connector,
+                          ),
                     ),
                     const SizedBox(height: 8),
                     SecondaryButton(

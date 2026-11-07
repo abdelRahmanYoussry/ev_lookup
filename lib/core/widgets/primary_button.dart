@@ -32,12 +32,13 @@ class PrimaryButton extends StatelessWidget {
           ),
           child: InkWell(
             borderRadius: radius,
-            onTap: callback == null
-                ? null
-                : () {
-                    HapticFeedback.lightImpact();
-                    callback();
-                  },
+            onTap:
+                callback == null
+                    ? null
+                    : () {
+                      HapticFeedback.lightImpact();
+                      callback();
+                    },
             child: SizedBox(
               height: AppSpacing.buttonHeight,
               width: double.infinity,

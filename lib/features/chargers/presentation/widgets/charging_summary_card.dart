@@ -30,9 +30,7 @@ class ChargingSummaryCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          Expanded(
-            child: Text('Charging 40% → 80%', style: text.titleMedium),
-          ),
+          Expanded(child: Text('Charging 40% → 80%', style: text.titleMedium)),
         ],
       ),
     );

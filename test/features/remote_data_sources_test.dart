@@ -32,8 +32,11 @@ void main() {
       await expectLater(
         VehicleRemoteDataSource(client).lookup('X'),
         throwsA(
-          isA<NotFoundException>()
-              .having((e) => e.message, 'message', 'Vehicle not found'),
+          isA<NotFoundException>().having(
+            (e) => e.message,
+            'message',
+            'Vehicle not found',
+          ),
         ),
       );
     });

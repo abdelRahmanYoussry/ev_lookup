@@ -33,8 +33,9 @@ void main() {
     expect(find.text('£25.42'), findsOneWidget);
   });
 
-  testWidgets('Not my car returns to a clean registration screen',
-      (tester) async {
+  testWidgets('Not my car returns to a clean registration screen', (
+    tester,
+  ) async {
     await pumpApp(tester);
 
     await tester.enterText(find.byType(TextField), 'TF24LPO');
@@ -47,12 +48,16 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Add your EV'), findsOneWidget);
-    expect(find.text('Check the plate on the back of your car.'), findsOneWidget);
+    expect(
+      find.text('Check the plate on the back of your car.'),
+      findsOneWidget,
+    );
     expect(tester.testTextInput.isVisible, isFalse);
   });
 
-  testWidgets('registration screen does not overflow with the keyboard open',
-      (tester) async {
+  testWidgets('registration screen does not overflow with the keyboard open', (
+    tester,
+  ) async {
     await pumpApp(tester);
     tester.view.viewInsets = const FakeViewPadding(bottom: 1000);
     addTearDown(tester.view.resetViewInsets);

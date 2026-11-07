@@ -17,8 +17,9 @@ class VehicleRemoteDataSource implements BaseVehicleRemoteDataSource {
 
   @override
   Future<VehicleModel> lookup(String registration) async {
-    final uri = Uri.parse('$baseUrl/vehicles/lookup')
-        .replace(queryParameters: {'registration': registration});
+    final uri = Uri.parse(
+      '$baseUrl/vehicles/lookup',
+    ).replace(queryParameters: {'registration': registration});
     final response = await client.get(uri);
 
     switch (response.statusCode) {

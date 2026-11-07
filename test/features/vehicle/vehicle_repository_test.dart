@@ -42,8 +42,9 @@ void main() {
   });
 
   test('maps NotFoundException to NotFoundFailure with its message', () async {
-    when(() => dataSource.lookup(any()))
-        .thenThrow(const NotFoundException('Vehicle not found'));
+    when(
+      () => dataSource.lookup(any()),
+    ).thenThrow(const NotFoundException('Vehicle not found'));
 
     final result = await repository.lookup('X');
 
@@ -57,8 +58,7 @@ void main() {
   });
 
   test('maps SocketException to NetworkFailure', () async {
-    when(() => dataSource.lookup(any()))
-        .thenThrow(const SocketException('x'));
+    when(() => dataSource.lookup(any())).thenThrow(const SocketException('x'));
 
     expect(failureOf(await repository.lookup('X')), isA<NetworkFailure>());
   });
