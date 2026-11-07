@@ -31,6 +31,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     context.read<VehicleLookupCubit>().lookup(_controller.text);
   }
 
+  void _retry(BuildContext context) {
+    FocusManager.instance.primaryFocus?.unfocus();
+    context.read<VehicleLookupCubit>().retry();
+  }
+
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
@@ -94,14 +99,37 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             onSubmitted: (_) => _submit(context),
                           ),
                           const SizedBox(height: 8),
-                          Text(
-                            message ?? 'Check the plate on the back of your car.',
-                            style: message == null
-                                ? text.bodySmall
-                                : text.bodySmall?.copyWith(
-                                    color: AppColors.error,
+                          if (message == null)
+                            Text(
+                              'Check the plate on the back of your car.',
+                              style: text.bodySmall,
+                            )
+                          else
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    message,
+                                    style: text.bodySmall?.copyWith(
+                                      color: AppColors.error,
+                                    ),
                                   ),
-                          ),
+                                ),
+                                if (state is VehicleLookupFailed)
+                                  TextButton(
+                                    onPressed: () => _retry(context),
+                                    style: TextButton.styleFrom(
+                                      minimumSize: const Size(0, 32),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                      ),
+                                      tapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                    ),
+                                    child: Text('Retry', style: text.labelLarge),
+                                  ),
+                              ],
+                            ),
                         ],
                       ),
                     ),
