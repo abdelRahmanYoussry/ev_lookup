@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_colors.dart';
+
 class CarIllustration extends StatelessWidget {
   const CarIllustration({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const SizedBox(
-      height: 120,
+      height: 150,
       width: double.infinity,
       child: CustomPaint(painter: _CarPainter()),
     );
@@ -17,38 +19,24 @@ class _CarPainter extends CustomPainter {
   const _CarPainter();
 
   // Length to width of a large electric SUV seen from above.
-  static const _aspect = 2.4;
+  static const _aspect = 2.6;
 
   static const _body = [
-    [0.0, 0.30, 0.01, 0.15, 0.05, 0.09],
-    [0.09, 0.035, 0.17, 0.02, 0.28, 0.02],
-    [0.45, 0.015, 0.65, 0.015, 0.78, 0.02],
-    [0.89, 0.025, 0.96, 0.07, 0.985, 0.16],
-    [1.0, 0.24, 1.0, 0.40, 1.0, 0.5],
+    [0.0, 0.25, 0.04, 0.06, 0.14, 0.04],
+    [0.35, 0.0, 0.70, 0.0, 0.86, 0.03],
+    [0.95, 0.06, 1.0, 0.22, 1.0, 0.5],
   ];
 
   static const _glass = [
-    [0.27, 0.30, 0.29, 0.15, 0.34, 0.12],
-    [0.48, 0.09, 0.64, 0.09, 0.73, 0.12],
-    [0.79, 0.15, 0.82, 0.30, 0.82, 0.5],
-  ];
-
-  static const _roof = [
-    [0.37, 0.32, 0.38, 0.22, 0.42, 0.20],
-    [0.52, 0.19, 0.62, 0.19, 0.68, 0.20],
-    [0.715, 0.22, 0.72, 0.32, 0.72, 0.5],
-  ];
-
-  static const _panorama = [
-    [0.44, 0.36, 0.445, 0.30, 0.47, 0.29],
-    [0.54, 0.28, 0.62, 0.28, 0.65, 0.29],
-    [0.675, 0.30, 0.68, 0.38, 0.68, 0.5],
+    [0.18, 0.30, 0.185, 0.17, 0.24, 0.14],
+    [0.40, 0.125, 0.62, 0.125, 0.72, 0.14],
+    [0.77, 0.16, 0.78, 0.32, 0.78, 0.5],
   ];
 
   @override
   void paint(Canvas canvas, Size size) {
     // Leave room above and below the body for the mirrors and the shadow.
-    final length = (size.width * 0.78).clamp(0.0, size.height * _aspect / 1.3);
+    final length = (size.width * 0.8).clamp(0.0, size.height * _aspect / 1.3);
     final width = length / _aspect;
     final origin = Offset((size.width - length) / 2, (size.height - width) / 2);
     Offset p(double u, double v) => origin + Offset(u * length, v * width);
@@ -66,11 +54,11 @@ class _CarPainter extends CustomPainter {
     );
 
     final tyre = Paint()..color = const Color(0xFF05090F);
-    for (final u in [0.16, 0.71]) {
-      for (final v in [0.0, 0.92]) {
+    for (final u in [0.16, 0.69]) {
+      for (final (v1, v2) in [(-0.08, 0.04), (0.96, 1.08)]) {
         canvas.drawRRect(
           RRect.fromRectAndRadius(
-            rect(u, v, u + 0.13, v + 0.08),
+            rect(u, v1, u + 0.15, v2),
             Radius.circular(width * 0.03),
           ),
           tyre,
@@ -99,23 +87,44 @@ class _CarPainter extends CustomPainter {
       _symmetric(p, _glass),
       Paint()
         ..shader = const LinearGradient(
-          colors: [Color(0xFF0E1A24), Color(0xFF24394B), Color(0xFF0E1A24)],
+          colors: [Color(0xFF0C121C), Color(0xFF151D2B), Color(0xFF2B3852)],
+          stops: [0, 0.6, 1],
         ).createShader(bounds),
     );
 
-    canvas.drawPath(
-      _symmetric(p, _roof),
-      Paint()
-        ..shader = const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFFDDE3E8), Colors.white, Color(0xFFDDE3E8)],
-        ).createShader(bounds),
+    final line =
+        Paint()
+          ..color = const Color(0xFF46566A)
+          ..strokeWidth = 1
+          ..style = PaintingStyle.stroke;
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        rect(0.30, 0.22, 0.61, 0.78),
+        Radius.circular(width * 0.13),
+      ),
+      line,
     );
-
     canvas.drawPath(
-      _symmetric(p, _panorama),
-      Paint()..color = const Color(0xFF16232E),
+      Path()
+        ..moveTo(p(0.27, 0.17).dx, p(0.27, 0.17).dy)
+        ..quadraticBezierTo(
+          p(0.235, 0.5).dx,
+          p(0.235, 0.5).dy,
+          p(0.27, 0.83).dx,
+          p(0.27, 0.83).dy,
+        ),
+      line,
+    );
+    canvas.drawPath(
+      Path()
+        ..moveTo(p(0.655, 0.17).dx, p(0.655, 0.17).dy)
+        ..quadraticBezierTo(
+          p(0.69, 0.5).dx,
+          p(0.69, 0.5).dy,
+          p(0.655, 0.83).dx,
+          p(0.655, 0.83).dy,
+        ),
+      line,
     );
 
     final crease =
@@ -123,43 +132,60 @@ class _CarPainter extends CustomPainter {
           ..color = const Color(0xFFD5DCE2)
           ..strokeWidth = 1
           ..style = PaintingStyle.stroke;
-    canvas.drawLine(p(0.81, 0.30), p(0.96, 0.25), crease);
-    canvas.drawLine(p(0.81, 0.70), p(0.96, 0.75), crease);
+    for (final flip in [false, true]) {
+      Offset q(double u, double v) => p(u, flip ? 1 - v : v);
+      final start = q(0.80, 0.33);
+      final c1 = q(0.86, 0.30);
+      final c2 = q(0.90, 0.36);
+      final end = q(0.96, 0.33);
+      canvas.drawPath(
+        Path()
+          ..moveTo(start.dx, start.dy)
+          ..cubicTo(c1.dx, c1.dy, c2.dx, c2.dy, end.dx, end.dy),
+        crease,
+      );
+    }
 
     final mirror = Paint()..color = const Color(0xFFE9EDF1);
-    final mirrorEdge =
-        Paint()
-          ..color = const Color(0xFFC9D1D9)
-          ..strokeWidth = 1
-          ..style = PaintingStyle.stroke;
-    for (final v in [-0.075, 0.965]) {
-      final shape = RRect.fromRectAndRadius(
-        rect(0.66, v, 0.71, v + 0.11),
-        Radius.circular(width * 0.04),
-      );
-      canvas.drawRRect(shape, mirror);
-      canvas.drawRRect(shape, mirrorEdge);
-    }
-
-    final headlight = Paint()..color = const Color(0xFF9FC3DA);
-    for (final v in [0.16, 0.66]) {
+    for (final (v1, v2) in [(-0.075, 0.03), (0.97, 1.075)]) {
       canvas.drawRRect(
         RRect.fromRectAndRadius(
-          rect(0.94, v, 0.968, v + 0.18),
-          Radius.circular(width * 0.02),
+          rect(0.65, v1, 0.685, v2),
+          Radius.circular(width * 0.05),
         ),
-        headlight,
+        mirror,
       );
     }
 
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        rect(0.022, 0.18, 0.034, 0.82),
-        Radius.circular(width * 0.01),
-      ),
-      Paint()..color = const Color(0xFFE5483A),
+    canvas.drawPath(
+      _quad(p(0.975, 0.22), p(1.005, 0.5), p(0.975, 0.78)),
+      Paint()
+        ..color = const Color(0xFFBFDDF0)
+        ..strokeWidth = width * 0.018
+        ..strokeCap = StrokeCap.round
+        ..style = PaintingStyle.stroke,
+    );
+
+    canvas.drawPath(
+      _quad(p(0.04, 0.16), p(0.0, 0.5), p(0.04, 0.84)),
+      Paint()
+        ..color = const Color(0xFFE8562F)
+        ..strokeWidth = width * 0.02
+        ..strokeCap = StrokeCap.round
+        ..style = PaintingStyle.stroke,
+    );
+
+    canvas.drawCircle(
+      p(0.20, 0.07),
+      width * 0.022,
+      Paint()..color = AppColors.buttonEnd,
     );
   }
+
+  Path _quad(Offset from, Offset control, Offset to) =>
+      Path()
+        ..moveTo(from.dx, from.dy)
+        ..quadraticBezierTo(control.dx, control.dy, to.dx, to.dy);
 
   // Each segment is [c1u, c1v, c2u, c2v, u, v] along the top half, from the
   // rear centre line to the front one. The bottom half mirrors it. The start
