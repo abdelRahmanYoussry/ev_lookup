@@ -1,27 +1,9 @@
-import 'package:ev_lookup/core/di/services_locator.dart';
-import 'package:ev_lookup/core/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Future<void> pumpApp(WidgetTester tester) async {
-  tester.view.physicalSize = const Size(1080, 2400);
-  tester.view.devicePixelRatio = 3;
-  addTearDown(tester.view.reset);
-
-  await tester.pumpWidget(
-    const MaterialApp(
-      initialRoute: AppRoutes.registration,
-      onGenerateRoute: AppRouter.onGenerateRoute,
-    ),
-  );
-}
+import '../support/pump_app.dart';
 
 void main() {
-  setUp(() async {
-    await sl.reset();
-    setupServiceLocator();
-  });
-
   testWidgets('tf24 lpo reaches the two CCS chargers', (tester) async {
     await pumpApp(tester);
 

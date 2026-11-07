@@ -15,12 +15,16 @@ import '../../mock/mock_transport.dart';
 
 final sl = GetIt.instance;
 
-void setupServiceLocator() {
+void setupServiceLocator({
+  bool failLookupOnce = const bool.fromEnvironment('FAIL_LOOKUP_ONCE'),
+  bool failChargersOnce = const bool.fromEnvironment('FAIL_CHARGERS_ONCE'),
+  bool emptyChargers = const bool.fromEnvironment('EMPTY_CHARGERS'),
+}) {
   sl.registerLazySingleton<http.Client>(
     () => MockTransport(
-      failLookupOnce: const bool.fromEnvironment('FAIL_LOOKUP_ONCE'),
-      failChargersOnce: const bool.fromEnvironment('FAIL_CHARGERS_ONCE'),
-      emptyChargers: const bool.fromEnvironment('EMPTY_CHARGERS'),
+      failLookupOnce: failLookupOnce,
+      failChargersOnce: failChargersOnce,
+      emptyChargers: emptyChargers,
     ),
   );
 
