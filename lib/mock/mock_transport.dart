@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 
-const mockBaseUrl = 'https://api.example.test';
-
 const _vehicle = {
   'id': 'ev-1',
   'make': 'Audi',

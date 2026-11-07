@@ -1,13 +1,14 @@
 import 'dart:convert';
 
+import 'package:ev_lookup/core/constants.dart';
 import 'package:ev_lookup/mock/mock_transport.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 
 Uri lookup(String registration) =>
-    Uri.parse('$mockBaseUrl/vehicles/lookup?registration=$registration');
+    Uri.parse('$baseUrl/vehicles/lookup?registration=$registration');
 
-final chargersUri = Uri.parse('$mockBaseUrl/chargers');
+final chargersUri = Uri.parse('$baseUrl/chargers');
 
 void main() {
   test('lookup returns the vehicle for TF24LPO', () async {
