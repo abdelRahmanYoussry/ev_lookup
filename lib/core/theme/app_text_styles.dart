@@ -17,6 +17,11 @@ abstract final class AppTextStyles {
         fontWeight: FontWeight.w600,
         color: AppColors.textPrimary,
       ),
+      titleLarge: base.titleLarge?.copyWith(
+        fontSize: 22,
+        fontWeight: FontWeight.w700,
+        color: AppColors.textPrimary,
+      ),
       bodyMedium: base.bodyMedium?.copyWith(
         fontSize: 14,
         color: AppColors.textSecondary,
