@@ -2,6 +2,10 @@
 
 This is a small Flutter app for looking up an electric car by its registration plate and listing the chargers that fit it. You type a plate, confirm the car it finds, and then see the chargers with the same connector, with the time and total cost for a 40% to 80% charge. There is no real backend: all the data comes from a mock HTTP transport that runs inside the app.
 
+Here is a short recording of the app on an Android emulator:
+
+https://github.com/user-attachments/assets/06590a50-0fd1-4e8d-b95d-7777381682a6
+
 ## Running it
 
 I built it with Flutter 3.29.3 and Dart 3.7.2 and tested it on a Pixel 7 Pro API 34 emulator. To run it and the tests:
@@ -11,6 +15,8 @@ I built it with Flutter 3.29.3 and Dart 3.7.2 and tested it on a Pixel 7 Pro API
     flutter test
 
 The registration that returns a car is `TF24LPO`. Spaces and case do not matter, so `tf24 lpo` works. Any other plate shows "Vehicle not found".
+
+`flutter test` runs 70 tests. They cover the use cases, the repositories, both Cubits, the screens and the localized strings. The connector filter test is in `test/features/chargers/filter_by_connector_test.dart`.
 
 ## Demo flags
 
@@ -24,7 +30,7 @@ Three `--dart-define` flags let me show the error and empty states without touch
 
 The code is split by feature, and each feature has data, domain and presentation folders. The domain layer has the entities, the repository contracts and the use cases, and it imports neither Flutter nor http. The data layer has the remote data sources, the models and the repository implementations. The presentation layer has the screens, widgets and Cubits.
 
-State is handled with flutter_bloc Cubits, and get_it wires everything together in one place. Cubits are registered as factories, so each screen gets a fresh one. Use cases return an `Either<Failure, T>` from dartz, and the repositories turn exceptions into failures: `http.ClientException` and `SocketException` become a network failure, and anything else becomes an unknown failure.
+State is handled with flutter_bloc Cubits, and get_it wires everything together in one place. Cubits are registered as factories, so each screen gets a fresh one. Use cases return an `Either<Failure, T>` from dartz, and the repositories turn exceptions into failures: a 404 becomes a not-found failure, `http.ClientException` and `SocketException` become a network failure, and anything else becomes an unknown failure.
 
 The data sources talk to a plain `http.Client`. In the app, `MockTransport` is injected as that client. It is a `MockClient` with a short delay, and it serves `/vehicles/lookup` and `/chargers`. Swapping in a real client would not touch anything outside the service locator.
 
